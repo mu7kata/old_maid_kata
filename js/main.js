@@ -57,6 +57,8 @@ window.onload = function () {
             //以下を追加
             td.num = tempCard.num;
             td.style.backgroundImage = `url(images/${tempCard.front})`;
+            td.setAttribute("id",`my_card.${j}`);
+            tr.setAttribute("id",`my_tr`);
             tr.appendChild(td);
         }
 
@@ -69,7 +71,7 @@ window.onload = function () {
     // カードのDOMを取得
     let card = document.getElementsByClassName('card');
 
-    // ボタンの個数分ループ
+    // カードの個数分ループ
     // 変数「i」に現在のループ回数が代入される
     // https://www.mdn.co.jp/di/contents/4047/54019/
     //TODO:querySelectorAllでいけるかも
@@ -95,9 +97,13 @@ window.onload = function () {
         td.classList.add('card');
         td.style.backgroundImage = imageUrl;
 
-        // console.log(td);
-        let addMyTable = document.getElementById('my-table');
-        addMyTable.appendChild(td);
+//自分のテーブルに追加
+        let parentDiv2 = document.getElementById("my_tr");
+        console.log(parentDiv2);
+        // 子要素３への参照を取得
+        let myCard = document.getElementById("my_card.3");
+        // 追加
+        parentDiv2.insertBefore(td, myCard);
     }
 
     //以下の変数を追加
