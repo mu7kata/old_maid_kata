@@ -65,6 +65,7 @@ window.onload = function () {
     }
 
 
+
     // カードのDOMを取得
     let card = document.getElementsByClassName('card');
 
@@ -79,12 +80,13 @@ window.onload = function () {
 
         card[i].addEventListener("click", function () {
             getCard(card[i]);
+            card[i].remove();
         });
     }
 
+    //指定のカードを追加する処理
     function getCard(card) {
         //https://itsakura.com/js-queryselectorall
-
         //https://www.javadrive.jp/javascript/dom/index28.html
         let style = getComputedStyle(card);
         let imageUrl = style.getPropertyValue('background-image');
@@ -97,7 +99,6 @@ window.onload = function () {
         let addMyTable = document.getElementById('my-table');
         addMyTable.appendChild(td);
     }
-
 
     //以下の変数を追加
     let firstCard = null;
