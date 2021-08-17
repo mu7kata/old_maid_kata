@@ -47,6 +47,8 @@ window.onload = function () {
 
         partnerTable.appendChild(tr);
     }
+
+
     shuffle();
     //TODO:class化できそう。。
     const myTable = document.getElementById('my-table');
@@ -57,6 +59,7 @@ window.onload = function () {
             let tempCard = cards[i * 13 + j];
             td.classList.add('card');
             td.onclick = flip;
+            // console.log(flip);
             //以下を追加
             td.num = tempCard.num;
             td.style.backgroundImage = `url(images/${tempCard.front})`;
@@ -71,23 +74,6 @@ window.onload = function () {
 
 
 
-    // カードのDOMを取得
-    let card = document.getElementsByClassName('card');
-
-    // カードの個数分ループ
-    // 変数「i」に現在のループ回数が代入される
-    // https://www.mdn.co.jp/di/contents/4047/54019/
-    //TODO:querySelectorAllでいけるかも
-    for (let i = card.length - 1; i >= 0; i--) {
-        // console.log(card);
-        // 各ボタンをイベントリスナーに登録
-
-
-        card[i].addEventListener("click", function () {
-            getCard(card[i]);
-            card[i].remove();
-        });
-    }
 
     //指定のカードを追加する処理
     function getCard(card) {
@@ -95,7 +81,7 @@ window.onload = function () {
         //https://www.javadrive.jp/javascript/dom/index28.html
         let style = getComputedStyle(card);
         let imageUrl = style.getPropertyValue('background-image');
-        
+        card.remove();
         // 手札の数をカウント、取得したカードの配置場所を決めるため
         myCardCount = document.querySelectorAll('#my_tr .card').length;
 
@@ -116,11 +102,12 @@ window.onload = function () {
     let firstCard = null;
     let flipTimerId = NaN;
 
-    function flip(e) {
-        let td = e.target;
-        console.log(td);
-        //下の一行をコメントアウト
-        //td.classList.toggle('back');
+    function flip(cards) {
+        let td = cards.target;
+
+        //クリックしたカードを引く。
+        getCard(cards.target);
+
         //以下を追記
         if (!td.classList.contains('back') || flipTimerId) {
             return;//表のカードをクリックしても何もしない。
