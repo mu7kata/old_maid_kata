@@ -5,7 +5,8 @@ window.onload = function () {
         this.front;
         this.setFront = function () {
             this.front = `${this.suit}${('0' + this.num).slice(-2)}.gif`;
-            this.front; let test = document.querySelector('.back');
+            
+            // this.front; let test = document.querySelector('.back');
         };
 
     }
@@ -14,6 +15,7 @@ window.onload = function () {
     for (let i = 0; i < suits.length; i++) {
         for (let j = 1; j <= 12; j++) {
             let card = new Card(suits[i], j);
+           
             card.setFront();
             cards.push(card);
         }
@@ -42,6 +44,9 @@ window.onload = function () {
             //以下を追加
             td.num = tempCard.num;
             td.style.backgroundImage = `url(images/${tempCard.front})`;
+
+            //一致したものを削除できるようにカードの数字を付与
+            td.setAttribute("id",`${tempCard.num}`);
             tr.appendChild(td);
         }
 
@@ -63,7 +68,8 @@ window.onload = function () {
             //以下を追加
             td.num = tempCard.num;
             td.style.backgroundImage = `url(images/${tempCard.front})`;
-            td.setAttribute("id",`my_card.${j}`);
+            // td.setAttribute("id",`my_card.${j}`);
+            td.setAttribute("id",`${tempCard.num}`);
             tr.setAttribute("id",`my_tr`);
             tr.appendChild(td);
         }
@@ -88,12 +94,13 @@ window.onload = function () {
         //クラス、ID付与
         let td = document.createElement('td');
         td.classList.add('card');
-        td.setAttribute("id",`my_card.${myCardCount}`);
+        // td.setAttribute("id",`my_card.${myCardCount}`);
         td.style.backgroundImage = imageUrl;
 
         //自分のテーブルに追加
         let parentDiv2 = document.getElementById("my_tr");
         let myCard = document.getElementById(`my_card.${myCardCount}`);
+        // console.log(myCard);
         // 追加
         parentDiv2.insertBefore(td, myCard);
     }
