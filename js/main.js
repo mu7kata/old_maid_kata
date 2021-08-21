@@ -32,10 +32,7 @@ window.addEventListener('DOMContentLoaded', function () {
     // TODO:class化できそう。。
 
 
-    const test = document.getElementById("next");
-    test.addEventListener("click", event => {
 
-    });
 
 
     //自分の手札生成
@@ -67,6 +64,7 @@ window.addEventListener('DOMContentLoaded', function () {
     const paNums = [];
     for (let i = 0; i < 1; i++) {
         let tr = document.createElement('tr');
+       
         for (let j = 24; j < 29; j++) {
             let td = document.createElement('td');
             //TODO::jだけで良くない？？
@@ -82,6 +80,20 @@ window.addEventListener('DOMContentLoaded', function () {
             tr.appendChild(td);
             partnerTable.appendChild(tr);
         }
+    }
+
+    function addNextButton(){
+        const container = document.getElementById('container');
+        let tees = document.createElement('button');
+        tees.setAttribute("id", `next`);
+        container.insertBefore(tees,null);
+        let text = document.createTextNode('次へ');
+        //アンカータグにテキストノード追加
+        tees.appendChild(text);
+        const test = document.getElementById("next");
+        test.addEventListener("click", event => {
+            
+        });
     }
 
     function removeDupCard(cardId) {
@@ -138,9 +150,11 @@ window.addEventListener('DOMContentLoaded', function () {
             getCard(cards);
             removeDupCard(cards.target.id);
             removeDupCard(cards.target.id);
+            addNextButton();
         }
 
         td.classList.remove('back');//カードを表にする。
+
         // if (!td.classList.contains('back') || flipTimerId) {
         console.log("クリックされました");
     }
