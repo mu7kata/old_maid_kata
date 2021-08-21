@@ -5,21 +5,19 @@ window.addEventListener('DOMContentLoaded', function () {
         this.front;
         this.setFront = function () {
             this.front = `${this.suit}${('0' + this.num).slice(-2)}.gif`;
-
             // this.front; let test = document.querySelector('.back');
         };
-
     }
     const cards = [];
     const suits = ['s', 'd', 'h', 'c'];
     for (let i = 0; i < suits.length; i++) {
         for (let j = 1; j <= 12; j++) {
             let card = new Card(suits[i], j);
-
             card.setFront();
             cards.push(card);
         }
     }
+    // //いらないかも
     // function shuffle() {
     //     let i = cards.length;
     //     while (i) {
@@ -31,7 +29,15 @@ window.addEventListener('DOMContentLoaded', function () {
     // }
 
     // shuffle();
-    //TODO:class化できそう。。
+    // TODO:class化できそう。。
+
+
+    const test = document.getElementById("next");
+    test.addEventListener("click", event => {
+
+    });
+
+
     //自分の手札生成
     const myTable = document.getElementById('my-table');
     const myNums = [];
@@ -65,7 +71,7 @@ window.addEventListener('DOMContentLoaded', function () {
             let td = document.createElement('td');
             //TODO::jだけで良くない？？
             let tempCard = cards[j];
-            td.classList.add('card', 'partner');
+            td.classList.add('card', 'partner', 'back');
             td.onclick = flip;
             //以下を追加
             td.num = tempCard.num;
@@ -78,23 +84,12 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    //いらないかも。。
-    function removeDupCard(table,paramNums) {
-    const parent = document.getElementById(table);
-    const nums = paramNums;
-        for (let i = 0; i < 5; i++) {
-            let cardss = document.getElementById(`no-${nums[i]}`);
-            for (let i = 0; i < nums.length; i++) {
-                if (cardss != null  ) {
-                    if (`no-${nums[i]}` == cardss.id) {
-                        cardssw = document.getElementById(`no-${nums[i]}`);
-                        if(cardssw != null){
-                            cardssw.parentNode.removeChild(cardssw);
-                        }
-                    }
-                }
-            }
-        }
+    function removeDupCard(cardId) {
+        let cardss = document.querySelector(`#my-table #${cardId}`);
+        // let cardss2 = document.querySelector(`#my-table #${cardId}`);
+        // console.log(cardss2);
+        cardss.parentNode.removeChild(cardss);
+        // cardss.parentNode.removeChild(cardss2);
     }
 
     // removeDupCard('partnerーtable',paNums);
@@ -124,6 +119,9 @@ window.addEventListener('DOMContentLoaded', function () {
         // https://js.studio-kingdom.com/javascript/node/insert_before
         insertedElement = parentDiv2.insertBefore(td, myCard);
         insertedElement.setAttribute("id", `${card.target.id}`);
+
+        //重複チェック自分のと、相手のを削除。。
+
     }
 
     //以下の変数を追加
@@ -133,13 +131,42 @@ window.addEventListener('DOMContentLoaded', function () {
     function flip(cards) {
         let td = cards.target;
 
-        //クリックしたカードを引く。
-
-        //以下を追記
-        if (!td.classList.contains('back') || flipTimerId) {
-            return;//表のカードをクリックしても何もしない。
+        //表にしたカードを取得、削除する
+        if (td.classList.contains('back')) {
+            td.classList.add('open');
+        }else{
+            getCard(cards);
+            removeDupCard(cards.target.id);
+            removeDupCard(cards.target.id);
         }
+
         td.classList.remove('back');//カードを表にする。
-        getCard(cards);
+        // if (!td.classList.contains('back') || flipTimerId) {
+        console.log("クリックされました");
     }
+
+
+    // button.addEventListener("click", event => {
+    //     console.log("クリックされました");
+    // });
+
+
+
+    // //いらないかも。。
+    // function removeDupCard(paramNums) {
+    // const parent = document.getElementById(table);
+    // const nums = paramNums;
+    //     // for (let i = 0; i < 5; i++) {
+    //         let cardss = document.getElementById(`no-${nums[i]}`);
+    //         for (let i = 0; i < nums.length; i++) {
+    //             if (cardss != null  ) {
+    //                 if (`no-${nums[i]}` == cardss.id) {
+    //                     cardssw = document.getElementById(`no-${nums[i]}`);
+    //                     if(cardssw != null){
+    //                         cardssw.parentNode.removeChild(cardssw);
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
 });
