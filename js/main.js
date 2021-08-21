@@ -1,5 +1,4 @@
 window.addEventListener('DOMContentLoaded', function () {
-    this.partnerCard = [];
     function Card(suit, num) {
         this.suit = suit;
         this.num = num;
@@ -9,7 +8,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
             // this.front; let test = document.querySelector('.back');
         };
-
 
     }
     const cards = [];
@@ -22,64 +20,85 @@ window.addEventListener('DOMContentLoaded', function () {
             cards.push(card);
         }
     }
-    function shuffle() {
-        let i = cards.length;
-        while (i) {
-            let index = Math.floor(Math.random() * i--);
-            var temp = cards[index];
-            cards[index] = cards[i];
-            cards[i] = temp;
-        }
-    }
+    // function shuffle() {
+    //     let i = cards.length;
+    //     while (i) {
+    //         let index = Math.floor(Math.random() * i--);
+    //         var temp = cards[index];
+    //         cards[index] = cards[i];
+    //         cards[i] = temp;
+    //     }
+    // }
 
-    shuffle();
+    // shuffle();
     //TODO:class化できそう。。
     //自分の手札生成
     const myTable = document.getElementById('my-table');
+    const myNums = [];
     for (let i = 0; i < 1; i++) {
         let tr = document.createElement('tr');
         for (let j = 0; j < 5; j++) {
             let td = document.createElement('td');
-            td.classList.add('card');
-            td.onclick = flip;
-
             let tempCard = '';
             tempCard = cards[j];
-
+            td.classList.add('card');
+            td.onclick = flip;
             td.num = tempCard.num;
             td.style.backgroundImage = `url(images/${tempCard.front})`;
-
-            td.setAttribute("id", `${tempCard.num}`);
+            // let num = \\``.tempCard.num;
+            td.setAttribute("id", `no-${tempCard.num}`);
+            myNums.push(tempCard.num);
             tr.setAttribute("id", `my_tr`);
             tr.appendChild(td);
             myTable.appendChild(tr);
-
         }
     }
+    // console.log(cardss[0].querySelector("no8"));
+    // 要素の取得→配列に格納⇨配列の中身。重複削除？？
+    // 要素の取得→ループで削除？？
     //相手手札の生成
     const partnerTable = document.getElementById('partnerーtable');
+    const paNums = [];
     for (let i = 0; i < 1; i++) {
         let tr = document.createElement('tr');
-        for (let j = 5; j < 10; j++) {
+        for (let j = 24; j < 29; j++) {
             let td = document.createElement('td');
             //TODO::jだけで良くない？？
             let tempCard = cards[j];
-
-            td.classList.add('card', 'partner', 'back');
+            td.classList.add('card', 'partner');
             td.onclick = flip;
-
             //以下を追加
             td.num = tempCard.num;
             td.style.backgroundImage = `url(images/${tempCard.front})`;
-
             //一致したものを削除できるようにカードの数字を付与
-            td.setAttribute("id", `${tempCard.num}`);
+            td.setAttribute("id", `no-${tempCard.num}`);
+            paNums.push(tempCard.num);
             tr.appendChild(td);
-            // let array = 1;
-            partnerCard.push(td.style.backgroundImage);
             partnerTable.appendChild(tr);
         }
     }
+
+    //いらないかも。。
+    function removeDupCard(table,paramNums) {
+    const parent = document.getElementById(table);
+    const nums = paramNums;
+        for (let i = 0; i < 5; i++) {
+            let cardss = document.getElementById(`no-${nums[i]}`);
+            for (let i = 0; i < nums.length; i++) {
+                if (cardss != null  ) {
+                    if (`no-${nums[i]}` == cardss.id) {
+                        cardssw = document.getElementById(`no-${nums[i]}`);
+                        if(cardssw != null){
+                            cardssw.parentNode.removeChild(cardssw);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // removeDupCard('partnerーtable',paNums);
+    // removeDupCard('myーtable',myNums);
 
     //指定のカードを追加する処理
     function getCard(card) {
@@ -100,8 +119,7 @@ window.addEventListener('DOMContentLoaded', function () {
         //自分のテーブルに追加
         let parentDiv2 = document.getElementById("my_tr");
         let myCard = document.getElementById(`my_card.${myCardCount}`);
-        console.log(card.target.id);
-        console.log(card);
+
         // 追加
         // https://js.studio-kingdom.com/javascript/node/insert_before
         insertedElement = parentDiv2.insertBefore(td, myCard);
@@ -123,23 +141,5 @@ window.addEventListener('DOMContentLoaded', function () {
         }
         td.classList.remove('back');//カードを表にする。
         getCard(cards);
-        // if (firstCard === null) {
-        //     firstCard = td;//1枚目だったら今めくったカードをfirstCardに設定
-        // } else {
-        //2枚目だったら1枚目と比較して結果を判定する。
-        // if (firstCard.num === td.num) {
-        //     //２枚が同じだったときの処理
-        //     firstCard = null;
-        // } else {
-        //     flipTimerId = setTimeout(function () {
-        //         firstCard.classList.add('back');
-        //         td.classList.add('back');
-        //         flipTimerId = NaN;
-        //         firstCard = null;
-        //     }, 1200);
-        // }
-
-
-        // }
     }
 });
