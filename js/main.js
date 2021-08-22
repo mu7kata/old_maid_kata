@@ -95,7 +95,6 @@ window.addEventListener('DOMContentLoaded', function () {
             tr.appendChild(td);
             partnerTable.appendChild(tr);
         }
-
         setJoker(tr);
     }
 
@@ -189,8 +188,15 @@ window.addEventListener('DOMContentLoaded', function () {
             //カードを引いた人のテーブルに追加
             parentDiv2 = document.getElementById('my_tr');
         }
+
+        //ばばだったら裏返す
+        if (ctd.className == 'card no-100') {
+            console.log(11);
+            td.classList.add('back');
+        }
         td.onclick = flip;
         insertedElement = parentDiv2.insertBefore(td, null);
+
         return parentDiv2.id;
         //重複チェック自分のと、相手のを削除。。
     }
@@ -216,6 +222,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
             //ばばだったら処理終了
             if (cardClass[1] == 'no-100') {
+                td.classList.add('back');
                 return;
             }
             removeDupCard(cardClass[1], getId);
