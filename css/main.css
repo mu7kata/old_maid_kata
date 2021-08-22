@@ -3,6 +3,7 @@ body{
 }
 table{
 	margin:10px auto;
+	position: relative; 
 }
 td.card{
 	width:80px;
@@ -18,4 +19,13 @@ td.card.back{
 
 #partnerーtable{
     padding-bottom:250px;
+}
+
+#my_tr .open{
+	position: relative; 
+	top:-19px; 
+}
+#pa_tr .open{
+	position: relative; 
+	top:19px; 
 }
