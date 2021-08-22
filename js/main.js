@@ -10,18 +10,18 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     const myCards = [];
 
-        for (let j = 1; j <= 5; j++) {
-            let card = new Card('h', j);
-            card.setFront();
-            myCards.push(card);
-        }
+    for (let j = 1; j <= 5; j++) {
+        let card = new Card('h', j);
+        card.setFront();
+        myCards.push(card);
+    }
     // }
     const paCards = [];
-        for (let j = 1; j <= 5; j++) {
-            let card = new Card('c', j);
-            card.setFront();
-            paCards.push(card);
-        }
+    for (let j = 1; j <= 5; j++) {
+        let card = new Card('c', j);
+        card.setFront();
+        paCards.push(card);
+    }
     console.log(myCards)
     // //いらないかも
     function shuffle(cards) {
@@ -40,10 +40,6 @@ window.addEventListener('DOMContentLoaded', function () {
     shuffle(paCards);
     // TODO:class化できそう。。
 
-
-
-
-
     //自分の手札生成
     const myTable = document.getElementById('my-table');
     for (let i = 0; i < 1; i++) {
@@ -53,7 +49,6 @@ window.addEventListener('DOMContentLoaded', function () {
             let tempCard = '';
             tempCard = myCards[j];
             td.classList.add('card');
-            td.onclick = flip;
             td.num = tempCard.num;
             td.style.backgroundImage = `url(images/${tempCard.front})`;
             // let num = \\``.tempCard.num;
@@ -76,7 +71,7 @@ window.addEventListener('DOMContentLoaded', function () {
         // tr.appendChild(td);
         let randomNum = Math.floor(Math.random() * tr.children.length);
         let insertBeforeTd = tr.children[randomNum];
-       tr.insertBefore(td, insertBeforeTd);
+        tr.insertBefore(td, insertBeforeTd);
     }
 
     //相手手札の生成
@@ -89,9 +84,8 @@ window.addEventListener('DOMContentLoaded', function () {
             //TODO::jだけで良くない？？
 
             let tempCard = paCards[j];
-            td.classList.add('card', `no-${tempCard.num}`, 'partner','back');
+            td.classList.add('card', `no-${tempCard.num}`, 'partner', 'back');
 
-            td.onclick = flip;
             //以下を追加
             td.num = tempCard.num;
             td.style.backgroundImage = `url(images/${tempCard.front})`;
@@ -101,6 +95,7 @@ window.addEventListener('DOMContentLoaded', function () {
             tr.appendChild(td);
             partnerTable.appendChild(tr);
         }
+
         setJoker(tr);
     }
 
@@ -151,6 +146,13 @@ window.addEventListener('DOMContentLoaded', function () {
 
                 removeDupCard(cardClass, getId);
                 button.parentNode.removeChild(button);
+                // td.classList.remove('noTouch');
+                let noTouches = document.querySelectorAll('.noclick');
+                console.log(noTouches);
+                // removeClassName(noTouches[1],'noTouch');
+                for(i=0; i<noTouches.length;i++){
+                    noTouches[i].classList.remove('noclick');
+                }
             }
         });
     }
@@ -198,13 +200,14 @@ window.addEventListener('DOMContentLoaded', function () {
     let flipTimerId = NaN;
 
     function flip(cards) {
-
+        console.log(cards);
         let td = cards.target;
         let tdParent = document.getElementsByClassName(td.className)[0];
         let trParent = tdParent.parentNode;
-        //表にしたカードを取得、削除する
+        //一枚しか取れない
+        //にしたカードを取得、削除する
         if (td.classList.contains('back') || td.classList.contains('noTouch')) {
-            td.classList.add('open');
+            td.setAttribute('id', 'open');
         } else {
             let cardClass = cards.target.className.split(' ');
             let getId = getCard(td, trParent.id);
@@ -225,10 +228,49 @@ window.addEventListener('DOMContentLoaded', function () {
 
     }
 
+    // if(){
+    let tr = document.querySelector(`#pa_tr`);
+    // .children[1].className;
+    console.log(tr.children[1]);
 
+    const tg = document.querySelector(`#pa_tr`);
+    let count = tg.children.length
+    for (i = 0; i < count; i++) {
+        
+        
+        let car = tg.children[i];
+        car.onclick = function (cards) {
+            let td = cards.target;
+            console.log(car);
+            let tdParent = document.getElementsByClassName(td.className)[0];
+            let trParent = tdParent.parentNode;
+            
+            //表にしたカードを取得、削除する
+            if (td.classList.contains('back') || td.classList.contains('noTouch')) {
+                td.setAttribute('id', 'open');
+            } else {
+                let cardClass = cards.target.className.split(' ');
+                let getId = getCard(td, trParent.id);
 
+                addNextButton();
+
+                //ばばだったら処理終了
+                if (cardClass[1] == 'no-100') {
+                    return;
+                }
+                removeDupCard(cardClass[1], getId);
+            }
+
+            let noclick = document.querySelectorAll('#pa_tr :not(#open)');
+            console.log(noclick);
+            for (i = 0; i < noclick.length; i++) {
+                noclick[i].classList.add('noclick');
+            }
+            td.classList.remove('back');//カードを表にする。
+            td.classList.remove('noTouch');//カードを表にする。
+
+            // });
+        }
+    }
+    // }
 });
-
-
-//シャッフル機能
-//一回取得したカードを取らせ得る

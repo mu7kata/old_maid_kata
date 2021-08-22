@@ -30,3 +30,7 @@ td.card.back{
 	position: relative; 
 	top:19px; 
 }
+
+.noclick{
+	pointer-events: none;
+  }
