@@ -63,24 +63,20 @@ window.addEventListener('DOMContentLoaded', function () {
             tr.appendChild(td);
             myTable.appendChild(tr);
         }
-
-        // let td = document.createElement('td');
-        // td.style.backgroundImage = `url(images/x02.gif)`;
-        // td.onclick = flip;
-        // tr.setAttribute("id", `my_tr`);
-        // td.classList.add('card', 'me',`no-100`,'noTouch');
-        // tr.appendChild(td);
-        // myTable.appendChild(tr);
     }
 
     function setJoker(tr) {
+        // .children[1]
+        console.log(tr);
         let td = document.createElement('td');
         td.style.backgroundImage = `url(images/x02.gif)`;
         td.onclick = flip;
         tr.setAttribute("id", `pa_tr`);
         td.classList.add('card', `no-100`, 'partner', 'back');
-        tr.appendChild(td);
-        partnerTable.appendChild(tr);
+        // tr.appendChild(td);
+        let randomNum = Math.floor(Math.random() * tr.children.length);
+        let insertBeforeTd = tr.children[randomNum];
+       tr.insertBefore(td, insertBeforeTd);
     }
 
     //相手手札の生成
@@ -93,7 +89,7 @@ window.addEventListener('DOMContentLoaded', function () {
             //TODO::jだけで良くない？？
 
             let tempCard = paCards[j];
-            td.classList.add('card', `no-${tempCard.num}`, 'partner');
+            td.classList.add('card', `no-${tempCard.num}`, 'partner','back');
 
             td.onclick = flip;
             //以下を追加
@@ -106,7 +102,6 @@ window.addEventListener('DOMContentLoaded', function () {
             partnerTable.appendChild(tr);
         }
         setJoker(tr);
-        shuffle(5);
     }
 
 
