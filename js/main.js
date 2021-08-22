@@ -8,27 +8,36 @@ window.addEventListener('DOMContentLoaded', function () {
             // this.front; let test = document.querySelector('.back');
         };
     }
-    const cards = [];
-    const suits = ['s', 'd', 'h', 'c'];
-    for (let i = 0; i < suits.length; i++) {
-        for (let j = 1; j <= 12; j++) {
-            let card = new Card(suits[i], j);
+    const myCards = [];
+
+        for (let j = 1; j <= 5; j++) {
+            let card = new Card('h', j);
             card.setFront();
-            cards.push(card);
+            myCards.push(card);
+        }
+    // }
+    const paCards = [];
+        for (let j = 1; j <= 5; j++) {
+            let card = new Card('c', j);
+            card.setFront();
+            paCards.push(card);
+        }
+    console.log(myCards)
+    // //いらないかも
+    function shuffle(cards) {
+        let i = cards.length;
+
+        while (i) {
+            let index = Math.floor(Math.random() * i--);
+            var temp = cards[index];
+            cards[index] = cards[i];
+            // console.log(temp,index);
+            cards[i] = temp;
         }
     }
-    // //いらないかも
-    // function shuffle() {
-    //     let i = cards.length;
-    //     while (i) {
-    //         let index = Math.floor(Math.random() * i--);
-    //         var temp = cards[index];
-    //         cards[index] = cards[i];
-    //         cards[i] = temp;
-    //     }
-    // }
 
-    // shuffle();
+    shuffle(myCards);
+    shuffle(paCards);
     // TODO:class化できそう。。
 
 
@@ -42,7 +51,7 @@ window.addEventListener('DOMContentLoaded', function () {
         for (let j = 0; j < 5; j++) {
             let td = document.createElement('td');
             let tempCard = '';
-            tempCard = cards[j];
+            tempCard = myCards[j];
             td.classList.add('card');
             td.onclick = flip;
             td.num = tempCard.num;
@@ -54,6 +63,7 @@ window.addEventListener('DOMContentLoaded', function () {
             tr.appendChild(td);
             myTable.appendChild(tr);
         }
+
         // let td = document.createElement('td');
         // td.style.backgroundImage = `url(images/x02.gif)`;
         // td.onclick = flip;
@@ -78,12 +88,12 @@ window.addEventListener('DOMContentLoaded', function () {
     for (let i = 0; i < 1; i++) {
         let tr = document.createElement('tr');
 
-        for (let j = 24; j < 29; j++) {
+        for (let j = 0; j < 5; j++) {
             let td = document.createElement('td');
             //TODO::jだけで良くない？？
 
-            let tempCard = cards[j];
-            td.classList.add('card', `no-${tempCard.num}`, 'partner', 'back');
+            let tempCard = paCards[j];
+            td.classList.add('card', `no-${tempCard.num}`, 'partner');
 
             td.onclick = flip;
             //以下を追加
@@ -96,6 +106,7 @@ window.addEventListener('DOMContentLoaded', function () {
             partnerTable.appendChild(tr);
         }
         setJoker(tr);
+        shuffle(5);
     }
 
 
@@ -223,8 +234,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
 });
 
-//ばばの追加
-//次への表示
-    //次へで処理実行
+
 //シャッフル機能
 //一回取得したカードを取らせ得る
