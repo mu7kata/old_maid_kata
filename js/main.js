@@ -55,6 +55,13 @@ window.addEventListener('DOMContentLoaded', function () {
             tr.appendChild(td);
             myTable.appendChild(tr);
         }
+        let td = document.createElement('td');
+        td.style.backgroundImage = `url(images/x02.gif)`;
+        td.onclick = flip;
+        tr.setAttribute("id", `my_tr`);
+        td.classList.add('card', 'me',`no-baba`,'noTouch');
+        tr.appendChild(td);
+        myTable.appendChild(tr);
     }
 
     //相手手札の生成
@@ -79,6 +86,13 @@ window.addEventListener('DOMContentLoaded', function () {
             tr.appendChild(td);
             partnerTable.appendChild(tr);
         }
+        let td = document.createElement('td');
+        td.style.backgroundImage = `url(images/x02.gif)`;
+        td.onclick = flip;
+        tr.setAttribute("id", `pa_tr`);
+        td.classList.add('card', 'me',`no-baba`,'back');
+        tr.appendChild(td);
+        partnerTable.appendChild(tr);
     }
 
     //相手のターン処理のためのボタン追加
@@ -164,28 +178,13 @@ window.addEventListener('DOMContentLoaded', function () {
 
     }
 
-
     // button.addEventListener("click", event => {
     //     console.log("クリックされました");
     // });
 
-
-
-    // //いらないかも。。
-    // function removeDupCard(paramNums) {
-    // const parent = document.getElementById(table);
-    // const nums = paramNums;
-    //     // for (let i = 0; i < 5; i++) {
-    //         let cardss = document.getElementById(`no-${nums[i]}`);
-    //         for (let i = 0; i < nums.length; i++) {
-    //             if (cardss != null  ) {
-    //                 if (`no-${nums[i]}` == cardss.id) {
-    //                     cardssw = document.getElementById(`no-${nums[i]}`);
-    //                     if(cardssw != null){
-    //                         cardssw.parentNode.removeChild(cardssw);
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
 });
+
+//ばばの追加
+//次への表示
+    //次へで処理実行
+//シャッフル機能
