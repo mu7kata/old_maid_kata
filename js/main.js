@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function () {
+addEventListener('DOMContentLoaded', function () {
     function Card(suit, num) {
         this.suit = suit;
         this.num = num;
@@ -8,17 +8,16 @@ window.addEventListener('DOMContentLoaded', function () {
         };
     }
 
+    function generateCard(cards) {
 
-
-    function Cards(CardsName) {
+        // カードの取得
         for (let j = 1; j <= 5; j++) {
             let card = new Card('h', j);
             card.setFront();
-            CardsName.push(card);
+            cards.push(card);
         }
-    }
 
-    function shuffle(cards) {
+        //カードをランダム配置
         let i = cards.length;
         while (i) {
             let index = Math.floor(Math.random() * i--);
@@ -33,26 +32,23 @@ window.addEventListener('DOMContentLoaded', function () {
     //自分の手札生成
     function madeMyTable() {
         const myCards = [];
-        Cards(myCards);
-        shuffle(myCards);
-        
+        generateCard(myCards);
+        let test = 'my';
+
         const myTable = document.getElementById('my-table');
-        for (let i = 0; i < 1; i++) {
-            let tr = document.createElement('tr');
-            for (let j = 0; j < 5; j++) {
-                let td = document.createElement('td');
-                let tempCard = '';
-                tempCard = myCards[j];
-                td.classList.add('card');
-                td.num = tempCard.num;
-                td.style.backgroundImage = `url(images/${tempCard.front})`;
-                td.classList.add('card', `no-${tempCard.num}`, 'me', 'noTouch');
-                tr.setAttribute("id", `my_tr`);
-                tr.appendChild(td);
-                myTable.appendChild(tr);
-            }
+        let tr = document.createElement('tr');
+        for (let j = 0; j < 5; j++) {
+            let td = document.createElement('td');
+            let tempCard = myCards[j];
+            td.classList.add('card', `no-${tempCard.num}`, 'my', 'noTouch');
+            td.num = tempCard.num;
+            td.style.backgroundImage = `url(images/${tempCard.front})`;
+            tr.setAttribute("id", `my_tr`);
+            tr.appendChild(td);
+            myTable.appendChild(tr);
         }
     }
+
     madeMyTable();
     function setJoker(tr) {
         let td = document.createElement('td');
@@ -70,29 +66,24 @@ window.addEventListener('DOMContentLoaded', function () {
     function maidPartnerTable() {
         const partnerTable = document.getElementById('partnerーtable');
         const paCards = [];
-        Cards(paCards);
-        shuffle(paCards);
-        for (let i = 0; i < 1; i++) {
-            let tr = document.createElement('tr');
+        generateCard(paCards);
+        let tr = document.createElement('tr');
 
-            for (let j = 0; j < 5; j++) {
-                let td = document.createElement('td');
-                //TODO::jだけで良くない？？
+        for (let j = 0; j < 5; j++) {
+            let td = document.createElement('td');
+            let tempCard = paCards[j];
+            td.classList.add('card', `no-${tempCard.num}`, 'partner', 'back');
 
-                let tempCard = paCards[j];
-                td.classList.add('card', `no-${tempCard.num}`, 'partner', 'back');
-
-                //以下を追加
-                td.num = tempCard.num;
-                td.style.backgroundImage = `url(images/${tempCard.front})`;
-                //一致したものを削除できるようにカードの数字を付与
-                // td.classList.add();
-                tr.setAttribute("id", `pa_tr`);
-                tr.appendChild(td);
-                partnerTable.appendChild(tr);
-            }
-            setJoker(tr);
+            //以下を追加
+            td.num = tempCard.num;
+            td.style.backgroundImage = `url(images/${tempCard.front})`;
+            //一致したものを削除できるようにカードの数字を付与
+            // td.classList.add();
+            tr.setAttribute("id", `pa_tr`);
+            tr.appendChild(td);
+            partnerTable.appendChild(tr);
         }
+        setJoker(tr);
     }
     maidPartnerTable();
 
@@ -107,10 +98,6 @@ window.addEventListener('DOMContentLoaded', function () {
         let text = document.createTextNode('次へ');
         //アンカータグにテキストノード追加
         tees.appendChild(text);
-        const test = document.getElementById("next");
-        test.addEventListener("click", event => {
-
-        });
 
         let classNames = [];
         let xtd = '';
@@ -118,6 +105,7 @@ window.addEventListener('DOMContentLoaded', function () {
         button.addEventListener("click", event => {
             let atr = document.querySelector(`#my_tr`);
 
+            //ひくカードをランダムで決める
             if (classNames.length == 0) {
                 classNames = [];
                 for (i = 0; i < atr.children.length; i++) {
@@ -135,20 +123,17 @@ window.addEventListener('DOMContentLoaded', function () {
                 let getId = getCard(xtd, '#my_tr');
                 cardClass = xtd.className.split(' ')[1]
 
-                // ばばだったら処理終了
-                if (cardClass == 'no-100') {
-
-                    return;
+                // ばば以外だったら重複削除
+                if (cardClass != 'no-100') {
+                    removeDupCard(cardClass, getId);
                 }
+                cardClick();
 
-                removeDupCard(cardClass, getId);
+                //ボタン削除
                 button.parentNode.removeChild(button);
-                // td.classList.remove('noTouch');
-                let noTouches = document.querySelectorAll('.noclick');
-
-                // removeClassName(noTouches[1],'noTouch');
-                for (i = 0; i < noTouches.length; i++) {
-                    noTouches[i].classList.remove('noclick');
+                let noClickes = document.querySelectorAll('.noclick');
+                for (i = 0; i < noClickes.length; i++) {
+                    noClickes[i].classList.remove('noclick');
                 }
             }
         });
@@ -156,24 +141,24 @@ window.addEventListener('DOMContentLoaded', function () {
 
     //自分のカードを削除
     function removeDupCard(cardClass, parentId) {
-        //1回目で相手から取ったカードを。２回目で自分のカードを削除する。
+        //ループ1回目で相手から取ったカードを。ループ２回目で自分のカードを削除する。
         for (let i = 0; i <= 1; i++) {
-            let cardss = document.querySelector(`#${parentId} .${cardClass}`);
+            let targetCards = document.querySelector(`#${parentId} .${cardClass}`);
 
-            cardss.parentNode.removeChild(cardss);
+            targetCards.parentNode.removeChild(targetCards);
         }
     }
 
 
     //指定のカードを追加する処理
-    function getCard(ctd, trId) {
-        let style = getComputedStyle(ctd);
+    function getCard(targetTd, trId) {
+        let style = getComputedStyle(targetTd);
         let imageUrl = style.getPropertyValue('background-image');
-        ctd.remove();
+        targetTd.remove();
 
         //クラス、ID付与
         let td = document.createElement('td');
-        let class_name = ctd.className.split(' ');
+        let class_name = targetTd.className.split(' ');
 
         td.classList.add('card', class_name[1]);
         td.style.backgroundImage = imageUrl;
@@ -184,11 +169,12 @@ window.addEventListener('DOMContentLoaded', function () {
             parentDiv2 = document.getElementById('my_tr');
         }
         //ばばだったら裏返す
-        if (ctd.className == 'card no-100') {
+        if (targetTd.className == 'card no-100') {
             td.classList.add('back');
         }
-        // td.onclick = flip;
+        console.log(td);
         insertedElement = parentDiv2.insertBefore(td, null);
+        console.log(insertedElement);
 
         return parentDiv2.id;
         //重複チェック自分のと、相手のを削除。。
@@ -196,15 +182,14 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
     function cardClick() {
-
-        let tr = document.querySelector(`#pa_tr`);
         const tg = document.querySelector(`#pa_tr`);
         let count = tg.children.length
         for (i = 0; i < count; i++) {
+            console.log(count);
             let car = tg.children[i];
             car.onclick = function (cards) {
                 let td = cards.target;
-
+                
                 let tdParent = document.getElementsByClassName(td.className)[0];
                 let trParent = tdParent.parentNode;
 
@@ -218,16 +203,16 @@ window.addEventListener('DOMContentLoaded', function () {
                     addNextButton();
 
                     //ばばだったら処理終了
-                    if (cardClass[1] == 'no-100') {
-                        return;
+                    if (cardClass[1] != 'no-100') {
+                        removeDupCard(cardClass[1], getId);
                     }
-                    removeDupCard(cardClass[1], getId);
                 }
 
                 let noclick = document.querySelectorAll('#pa_tr :not(#open)');
                 for (i = 0; i < noclick.length; i++) {
                     noclick[i].classList.add('noclick');
                 }
+                console.log(td.classList)
                 td.classList.remove('back');//カードを表にする。
                 td.classList.remove('noTouch');//カードを表にする。
             }
