@@ -141,7 +141,6 @@ addEventListener('DOMContentLoaded', function () {
                     removeDupCard(cardClass, getId);
                 }
 
-
                 cardClick();
 
                 //ボタン削除
@@ -151,6 +150,8 @@ addEventListener('DOMContentLoaded', function () {
                     noClickes[i].classList.remove('noclick');
                 }
             }
+
+
         });
     }
 
@@ -186,8 +187,6 @@ addEventListener('DOMContentLoaded', function () {
 
         //相手が引いた時ばばだったら裏返す
         if (trId == 'my_tr' && targetTd.className == 'card no-100') {
-            console.log(trId);
-
             td.classList.add('back');
         }
 
@@ -230,18 +229,39 @@ addEventListener('DOMContentLoaded', function () {
                 }
 
                 td.classList.remove('back');//カードを表にする。
-                td.classList.remove('noTouch');//カードを表にする。
+                td.classList.remove('noTouch');
             }
         }
     }
 
+    function matchResult() {
+        let test = document.querySelectorAll('.card');
+        let joker = document.querySelectorAll('.no-100');
+        //最後の一枚になった時、ジョーカーを保持しているかどうかで勝敗の決定
+        if (test.length == 1) {
+            const result = document.querySelector(`#result`);
+            if (joker[0].parentNode.id == 'pa_tr') {
+                //裏返ったままなので表にする
+                joker[0].classList.remove('back');
+                result.innerHTML = "Your WIN!!!";
+            } else {
+                result.innerHTML = "Your Lose....";
+            }
+        }
+    }
 
-
+    var div = document.getElementsByTagName('div')[0];
+    var mo = new MutationObserver(function () {
+        matchResult();
+    });
+    var config = {
+        childList: true
+    };
+    //勝敗の判定
+    mo.observe(div, config);
 });
 
 
-// ポイントを当てた時にクラス付与
-// 終了処理
 // キャラ選択処理
 // 相手のターン処理自動処理
 // ターン切り替わりエフェクト
