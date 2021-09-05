@@ -78,7 +78,6 @@ addEventListener('DOMContentLoaded', function () {
             td.num = tempCard.num;
             td.style.backgroundImage = `url(images/${tempCard.front})`;
             //一致したものを削除できるようにカードの数字を付与
-            // td.classList.add();
             tr.setAttribute("id", `pa_tr`);
             tr.appendChild(td);
             partnerTable.appendChild(tr);
@@ -120,7 +119,7 @@ addEventListener('DOMContentLoaded', function () {
                 xtd.classList.add('open');
                 xtd.classList.remove('noTouch');
             } else {
-                let getId = getCard(xtd, '#my_tr');
+                let getId = getCard(xtd, 'my_tr');
                 cardClass = xtd.className.split(' ')[1]
 
                 // ばば以外だったら重複削除
@@ -168,13 +167,15 @@ addEventListener('DOMContentLoaded', function () {
             //カードを引いた人のテーブルに追加
             parentDiv2 = document.getElementById('my_tr');
         }
-        //ばばだったら裏返す
-        if (targetTd.className == 'card no-100') {
+
+        //相手が引いた時ばばだったら裏返す
+        if (trId == 'my_tr' && targetTd.className == 'card no-100') {
+            console.log(trId);
+           
             td.classList.add('back');
         }
-        console.log(td);
+
         insertedElement = parentDiv2.insertBefore(td, null);
-        console.log(insertedElement);
 
         return parentDiv2.id;
         //重複チェック自分のと、相手のを削除。。
@@ -185,7 +186,6 @@ addEventListener('DOMContentLoaded', function () {
         const tg = document.querySelector(`#pa_tr`);
         let count = tg.children.length
         for (i = 0; i < count; i++) {
-            console.log(count);
             let car = tg.children[i];
             car.onclick = function (cards) {
                 let td = cards.target;
@@ -212,7 +212,7 @@ addEventListener('DOMContentLoaded', function () {
                 for (i = 0; i < noclick.length; i++) {
                     noclick[i].classList.add('noclick');
                 }
-                console.log(td.classList)
+
                 td.classList.remove('back');//カードを表にする。
                 td.classList.remove('noTouch');//カードを表にする。
             }
