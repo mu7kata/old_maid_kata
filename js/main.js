@@ -105,13 +105,31 @@ addEventListener('DOMContentLoaded', function () {
     //相手のターン処理のためのボタン追加
     function addNextButton() {
         const container = document.getElementById('container');
-        //「次へ」ボタン作成
-        let nextButton = document.createElement('button');
-        nextButton.setAttribute("id", `next`);
-        container.insertBefore(nextButton, null);
-        let text = document.createTextNode('次へ');
-        nextButton.appendChild(text);
 
+        let myTr = document.querySelectorAll(`#my_tr .card`);
+        // 自分の手札がない（ゲーム終了の場合）はボタン表示処理は終了する
+        if (myTr.length == 0) {
+            return;
+        }
+        //「相手のターンメッセージの作成
+
+        const div = document.getElementById('next_messeage');
+        let h2 = document.createElement('h2');
+        let h2text = document.createTextNode('相手のターン');
+        h2.appendChild(h2text);
+        div.appendChild(h2);
+    
+        // 次へボタンの作成
+        let nextButton = document.createElement('button');
+        let buttonText = document.createTextNode('進む');
+        nextButton.appendChild(buttonText);
+        div.appendChild(nextButton);
+        // partnerTable.appendChild(tr);
+
+        nextButton.setAttribute("id", `next`);
+        var reference = document.querySelector('#result');
+        container.insertBefore(div, reference);
+        
         let classNames = [];
         let targetTd = '';
 
@@ -126,7 +144,6 @@ addEventListener('DOMContentLoaded', function () {
                 }
                 let className = classNames[Math.floor(Math.random() * classNames.length)];
                 targetTd = document.querySelector(`#my_tr .${className}`);
-
             }
 
             if (targetTd.classList.contains('noTouch')) {
@@ -143,8 +160,10 @@ addEventListener('DOMContentLoaded', function () {
 
                 cardClick();
 
-                //ボタン削除
+                //メッセージ削除
                 nextButton.parentNode.removeChild(nextButton);
+                h2.parentNode.removeChild(h2);
+
                 let noClickes = document.querySelectorAll('.noclick');
                 for (i = 0; i < noClickes.length; i++) {
                     noClickes[i].classList.remove('noclick');
@@ -214,13 +233,13 @@ addEventListener('DOMContentLoaded', function () {
                 } else {
                     let cardClass = cards.target.className.split(' ');
                     let getId = getCard(td, trParent.id);
-
-                    addNextButton();
-
+                    
                     //ばばだったら処理終了
                     if (cardClass[1] != 'no-100') {
                         removeDupCard(cardClass[1], getId);
                     }
+                  
+                    addNextButton();
                 }
 
                 let noclick = document.querySelectorAll('#pa_tr :not(#open)');
@@ -233,12 +252,14 @@ addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-
+    let cardNum = "";
+    //勝敗の判定
     function matchResult() {
-        let test = document.querySelectorAll('.card');
+        let card = document.querySelectorAll('.card');
         let joker = document.querySelectorAll('.no-100');
+        cardNum = card.length;
         //最後の一枚になった時、ジョーカーを保持しているかどうかで勝敗の決定
-        if (test.length == 1) {
+        if (card.length == 1) {
             const result = document.querySelector(`#result`);
             if (joker[0].parentNode.id == 'pa_tr') {
                 //裏返ったままなので表にする
@@ -249,8 +270,8 @@ addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-
-    var div = document.getElementsByTagName('div')[0];
+  
+    var div = document.querySelectorAll('#my_tr');
     var mo = new MutationObserver(function () {
         matchResult();
     });
@@ -258,10 +279,13 @@ addEventListener('DOMContentLoaded', function () {
         childList: true
     };
     //勝敗の判定
-    mo.observe(div, config);
+    mo.observe(div[0], config);
 });
 
 
 // キャラ選択処理
 // 相手のターン処理自動処理
-// ターン切り替わりエフェクト
+//デザイン
+    // ターン切り替わりエフェクト
+    //カード引くところ
+    //勝敗決定

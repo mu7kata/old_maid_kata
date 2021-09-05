@@ -26,7 +26,7 @@ td.card.back{
 
 
 #partnerーtable{
-    padding-bottom:130px;
+    padding-bottom:30px;
 }
 
 #my_tr .open{
@@ -51,4 +51,24 @@ td.card.back{
 		top:19px; 
 		left:550px;
 		width: 300px;
+	}
+
+	h1{
+		text-align: center;
+		font-size: 50px;
+		z-index: 1;
+	}
+
+	/* #next{
+		position: relative;
+		top:19px; 
+		left:550px;
+	} */
+
+	#next_messeage{
+	position: 
+	relative;
+	/* top:px;  */
+	left:550px;
+	height: 100px;
 	}
