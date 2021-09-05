@@ -1,2 +1,2 @@
-<?php include_once("index.html"); ?>
+<?php include_once("select.html"); ?>
 <!-- アプリとして認識されずherokuにアップできないため -->
