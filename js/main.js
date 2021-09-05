@@ -118,7 +118,7 @@ addEventListener('DOMContentLoaded', function () {
         let h2text = document.createTextNode('相手のターン');
         h2.appendChild(h2text);
         div.appendChild(h2);
-    
+
         // 次へボタンの作成
         let nextButton = document.createElement('button');
         let buttonText = document.createTextNode('進む');
@@ -169,8 +169,6 @@ addEventListener('DOMContentLoaded', function () {
                     noClickes[i].classList.remove('noclick');
                 }
             }
-
-
         });
     }
 
@@ -233,12 +231,12 @@ addEventListener('DOMContentLoaded', function () {
                 } else {
                     let cardClass = cards.target.className.split(' ');
                     let getId = getCard(td, trParent.id);
-                    
+
                     //ばばだったら処理終了
                     if (cardClass[1] != 'no-100') {
                         removeDupCard(cardClass[1], getId);
                     }
-                  
+
                     addNextButton();
                 }
 
@@ -252,24 +250,47 @@ addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-    let cardNum = "";
+
     //勝敗の判定
     function matchResult() {
+        console.log(document.querySelectorAll("#partner_img")[0]);
         let card = document.querySelectorAll('.card');
         let joker = document.querySelectorAll('.no-100');
-        cardNum = card.length;
+
         //最後の一枚になった時、ジョーカーを保持しているかどうかで勝敗の決定
         if (card.length == 1) {
             const result = document.querySelector(`#result`);
             if (joker[0].parentNode.id == 'pa_tr') {
+                //勝った場合
+
                 //裏返ったままなので表にする
                 joker[0].classList.remove('back');
                 result.innerHTML = "Your WIN!!!";
+
+                //なぜかうまく画像が切り替わらないので削除し再生成する
+                let img = document.getElementById("partner_img");
+                img.parentNode.removeChild(img);
+
+                let loseImg = document.createElement('img');
+                loseImg.setAttribute("id", 'partner_img');
+                let partnerSpace = document.getElementById("partner-space");
+                let reference = document.querySelector('#partnerーtable');
+                partnerSpace.insertBefore(loseImg, reference);
+
+                //負けた時用の画像を追加
+                let loseSrcImg = [
+                    "images/partner/kakki_s-1.png",
+                    "images/partner/kakki_s-2.png"
+                ];
+                Img(loseSrcImg);
+                console.log(img2);
             } else {
+                //負けた場合の処理
                 let url = location.href;
                 result.innerHTML = `Your Lose....<br/><a href=${url}>もう一度挑戦する</a>`;
 
             }
+            console.log(document.querySelectorAll("#partner_img")[0]);
         }
     }
 
@@ -284,27 +305,22 @@ addEventListener('DOMContentLoaded', function () {
     mo.observe(div[0], config);
 });
 
-
+//通常モードの画像
+let srcImg = [
+    "images/partner/kakki-1.png",
+    "images/partner/kakki-2.png",
+    "images/partner/kakki-3.png"];
 //画像を動的に表示
+function Img(srcImg) {
+    console.log(1);
     let img = document.getElementById("partner_img"),
-        srcList = [
-            "images/partner/kakki-1.png",
-            "images/partner/kakki-2.png",
-            "images/partner/kakki-3.png"]
+        srcList = srcImg,
         length = srcList.length,
         index = 0;
-    
-    setInterval(function() {
+
+    setInterval(function () {
         img.setAttribute("src", srcList[index]);
         index = ++index % length;
     }, 750);
-
-
-
-// キャラ選択処理
-// 相手のターン処理自動処理
-//デザイン
-    // ターン切り替わりエフェクト
-    //カード引くところ
-    //勝敗決定
-//スタート処理
+}
+Img(srcImg);
