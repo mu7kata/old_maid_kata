@@ -92,36 +92,36 @@ addEventListener('DOMContentLoaded', function () {
     //相手のターン処理のためのボタン追加
     function addNextButton() {
         const container = document.getElementById('container');
-        let tees = document.createElement('button');
-        tees.setAttribute("id", `next`);
-        container.insertBefore(tees, null);
+        //「次へ」ボタン作成
+        let nextButton = document.createElement('button');
+        nextButton.setAttribute("id", `next`);
+        container.insertBefore(nextButton, null);
         let text = document.createTextNode('次へ');
-        tees.appendChild(text);
+        nextButton.appendChild(text);
 
         let classNames = [];
-        let xtd = '';
-        const button = document.getElementById("next");
-        
-        button.addEventListener("click", event => {
-            let atr = document.querySelector(`#my_tr`);
+        let targetTd = '';
 
+        nextButton.addEventListener("click", event => {
+            let targetTr = document.querySelector(`#my_tr`);
             //ひくカードをランダムで決める
             if (classNames.length == 0) {
                 classNames = [];
-                for (i = 0; i < atr.children.length; i++) {
-                    let className = atr.children[i].className.split(' ')[1];
+                for (i = 0; i < targetTr.children.length; i++) {
+                    let className = targetTr.children[i].className.split(' ')[1];
                     classNames.push(className);
                 }
-                let a = classNames[Math.floor(Math.random() * classNames.length)];
-                xtd = document.querySelector(`#my_tr .${a}`);
+                let className = classNames[Math.floor(Math.random() * classNames.length)];
+                targetTd = document.querySelector(`#my_tr .${className}`);
+   
             }
 
-            if (xtd.classList.contains('noTouch')) {
-                xtd.classList.add('open');
-                xtd.classList.remove('noTouch');
+            if (targetTd.classList.contains('noTouch')) {
+                targetTd.classList.add('open');
+                targetTd.classList.remove('noTouch');
             } else {
-                let getId = getCard(xtd, 'my_tr');
-                cardClass = xtd.className.split(' ')[1]
+                let getId = getCard(targetTd, 'my_tr');
+                cardClass = targetTd.className.split(' ')[1]
 
                 // ばば以外だったら重複削除
                 if (cardClass != 'no-100') {
@@ -130,7 +130,7 @@ addEventListener('DOMContentLoaded', function () {
                 cardClick();
 
                 //ボタン削除
-                button.parentNode.removeChild(button);
+                nextButton.parentNode.removeChild(nextButton);
                 let noClickes = document.querySelectorAll('.noclick');
                 for (i = 0; i < noClickes.length; i++) {
                     noClickes[i].classList.remove('noclick');
