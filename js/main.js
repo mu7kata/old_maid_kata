@@ -30,7 +30,6 @@ addEventListener('DOMContentLoaded', function () {
     }
 
     // TODO:class化できそう。。
-
     //自分の手札生成
     function madeMyTable() {
         const myCards = [];
@@ -51,18 +50,29 @@ addEventListener('DOMContentLoaded', function () {
     }
 
     madeMyTable();
+
     function setJoker(tr) {
         let td = document.createElement('td');
         td.style.backgroundImage = `url(images/x02.gif)`;
 
         tr.setAttribute("id", `pa_tr`);
         td.classList.add('card', `no-100`, 'partner', 'back');
-        
+
         let randomNum = Math.floor(Math.random() * tr.children.length);
         let insertBeforeTd = tr.children[randomNum];
         tr.insertBefore(td, insertBeforeTd);
+        cardHover(td);
     }
 
+    //カードにカーソルがあった時、変化させる
+    function cardHover(td) {
+        td.addEventListener('mouseenter', () => {
+            td.classList.add('hover');
+        }, false);
+        td.addEventListener('mouseout', () => {
+            td.classList.remove('hover');
+        }, false);
+    }
     //相手手札の生成
     function maidPartnerTable() {
         const partnerTable = document.getElementById('partnerーtable');
@@ -74,7 +84,7 @@ addEventListener('DOMContentLoaded', function () {
             let td = document.createElement('td');
             let tempCard = paCards[j];
             td.classList.add('card', `no-${tempCard.num}`, 'partner', 'back');
-
+            // td.setAttribute("onmouseover", mouseover);
             //以下を追加
             td.num = tempCard.num;
             td.style.backgroundImage = `url(images/${tempCard.front})`;
@@ -82,7 +92,10 @@ addEventListener('DOMContentLoaded', function () {
             tr.setAttribute("id", `pa_tr`);
             tr.appendChild(td);
             partnerTable.appendChild(tr);
+            // カードに触れた時の挙動変更   
+            cardHover(td);
         }
+
         setJoker(tr);
     }
     maidPartnerTable();
@@ -113,7 +126,7 @@ addEventListener('DOMContentLoaded', function () {
                 }
                 let className = classNames[Math.floor(Math.random() * classNames.length)];
                 targetTd = document.querySelector(`#my_tr .${className}`);
-   
+
             }
 
             if (targetTd.classList.contains('noTouch')) {
@@ -127,6 +140,8 @@ addEventListener('DOMContentLoaded', function () {
                 if (cardClass != 'no-100') {
                     removeDupCard(cardClass, getId);
                 }
+
+
                 cardClick();
 
                 //ボタン削除
@@ -172,7 +187,7 @@ addEventListener('DOMContentLoaded', function () {
         //相手が引いた時ばばだったら裏返す
         if (trId == 'my_tr' && targetTd.className == 'card no-100') {
             console.log(trId);
-           
+
             td.classList.add('back');
         }
 
@@ -190,7 +205,7 @@ addEventListener('DOMContentLoaded', function () {
             let car = tg.children[i];
             car.onclick = function (cards) {
                 let td = cards.target;
-                
+
                 let tdParent = document.getElementsByClassName(td.className)[0];
                 let trParent = tdParent.parentNode;
 
@@ -220,4 +235,13 @@ addEventListener('DOMContentLoaded', function () {
         }
     }
 
+
+
 });
+
+
+// ポイントを当てた時にクラス付与
+// 終了処理
+// キャラ選択処理
+// 相手のターン処理自動処理
+// ターン切り替わりエフェクト
