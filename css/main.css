@@ -6,11 +6,19 @@ table{
 	position: relative; 
 }
 td.card{
-	width:80px;
-	height:120px;
+	width:100px;
+	height:150px;
 	margin:2px;
 	background-size:cover;
 }
+
+#pa_tr td.card{
+	width:68px;
+	height:105px;
+	margin:2px;
+	background-size:cover;
+}
+
 /*以下を追記*/
 td.card.back{
   background-image:url(../images/z01.gif) !important;
@@ -18,8 +26,7 @@ td.card.back{
 
 
 #partnerーtable{
-    padding-bottom:250px;
-	padding-top:80px;
+    padding-bottom:130px;
 }
 
 #my_tr .open{
@@ -38,3 +45,10 @@ td.card.back{
 .noclick{
 	pointer-events: none;
   }
+
+	#partner_img{
+		position: relative;
+		top:19px; 
+		left:550px;
+		width: 300px;
+	}
