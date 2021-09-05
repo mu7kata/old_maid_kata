@@ -1,11 +1,13 @@
 addEventListener('DOMContentLoaded', function () {
-    function Card(suit, num) {
-        this.suit = suit;
-        this.num = num;
-        this.front;
-        this.setFront = function () {
-            this.front = `${this.suit}${('0' + this.num).slice(-2)}.gif`;
-        };
+    class Card {
+        constructor(suit, num) {
+            this.suit = suit;
+            this.num = num;
+            this.front;
+            this.setFront = function () {
+                this.front = `${this.suit}${('0' + this.num).slice(-2)}.gif`;
+            };
+        }
     }
 
     function generateCard(cards) {
@@ -33,7 +35,6 @@ addEventListener('DOMContentLoaded', function () {
     function madeMyTable() {
         const myCards = [];
         generateCard(myCards);
-        let test = 'my';
 
         const myTable = document.getElementById('my-table');
         let tr = document.createElement('tr');
@@ -53,10 +54,10 @@ addEventListener('DOMContentLoaded', function () {
     function setJoker(tr) {
         let td = document.createElement('td');
         td.style.backgroundImage = `url(images/x02.gif)`;
-        // td.onclick = flip;
+
         tr.setAttribute("id", `pa_tr`);
         td.classList.add('card', `no-100`, 'partner', 'back');
-        // tr.appendChild(td);
+        
         let randomNum = Math.floor(Math.random() * tr.children.length);
         let insertBeforeTd = tr.children[randomNum];
         tr.insertBefore(td, insertBeforeTd);
@@ -95,12 +96,12 @@ addEventListener('DOMContentLoaded', function () {
         tees.setAttribute("id", `next`);
         container.insertBefore(tees, null);
         let text = document.createTextNode('次へ');
-        //アンカータグにテキストノード追加
         tees.appendChild(text);
 
         let classNames = [];
         let xtd = '';
         const button = document.getElementById("next");
+        
         button.addEventListener("click", event => {
             let atr = document.querySelector(`#my_tr`);
 
