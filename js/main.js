@@ -129,7 +129,7 @@ addEventListener('DOMContentLoaded', function () {
         nextButton.setAttribute("id", `next`);
         var reference = document.querySelector('#result');
         container.insertBefore(div, reference);
-        
+        div.classList.add('a');
         let classNames = [];
         let targetTd = '';
 
@@ -163,7 +163,7 @@ addEventListener('DOMContentLoaded', function () {
                 //メッセージ削除
                 nextButton.parentNode.removeChild(nextButton);
                 h2.parentNode.removeChild(h2);
-
+                div.classList.remove('a');
                 let noClickes = document.querySelectorAll('.noclick');
                 for (i = 0; i < noClickes.length; i++) {
                     noClickes[i].classList.remove('noclick');
@@ -266,11 +266,13 @@ addEventListener('DOMContentLoaded', function () {
                 joker[0].classList.remove('back');
                 result.innerHTML = "Your WIN!!!";
             } else {
-                result.innerHTML = "Your Lose....";
+                let url = location.href;
+                result.innerHTML = `Your Lose....<br/><a href=${url}>もう一度挑戦する</a>`;
+
             }
         }
     }
-  
+
     var div = document.querySelectorAll('#my_tr');
     var mo = new MutationObserver(function () {
         matchResult();
@@ -283,9 +285,26 @@ addEventListener('DOMContentLoaded', function () {
 });
 
 
+//画像を動的に表示
+    let img = document.getElementById("partner_img"),
+        srcList = [
+            "images/partner/kakki-1.png",
+            "images/partner/kakki-2.png",
+            "images/partner/kakki-3.png"]
+        length = srcList.length,
+        index = 0;
+    
+    setInterval(function() {
+        img.setAttribute("src", srcList[index]);
+        index = ++index % length;
+    }, 750);
+
+
+
 // キャラ選択処理
 // 相手のターン処理自動処理
 //デザイン
     // ターン切り替わりエフェクト
     //カード引くところ
     //勝敗決定
+//スタート処理

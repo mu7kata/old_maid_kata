@@ -49,8 +49,10 @@ td.card.back{
 	#partner_img{
 		position: relative;
 		top:19px; 
-		left:550px;
 		width: 300px;
+		margin: 0 auto;
+		text-align: center;
+		display: block;
 	}
 
 	h1{
@@ -66,9 +68,23 @@ td.card.back{
 	} */
 
 	#next_messeage{
-	position: 
-	relative;
-	/* top:px;  */
-	left:550px;
-	height: 100px;
+	position: relative;
+	margin: 0 auto;
+	height: 80px;
+	}
+
+	#next_messeage h2 ,#next{
+		margin: 0 auto;
+		text-align: center;
+		display: block;
+		
+	}
+
+	.a {
+	background-color: aliceblue;
+	width: 250px;
+	}
+
+	#result a{
+font-size: 18px;
 	}
