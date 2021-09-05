@@ -9,6 +9,29 @@ addEventListener('DOMContentLoaded', function () {
             };
         }
     }
+    //選択された対戦相手の画像を取得
+    const url = new URL(location.href);
+    const partnerName = url.search.split('?name=')[1];
+
+    //通常モードの画像
+    let srcImg = [
+        `images/partner/${partnerName}-1.png`,
+        `images/partner/${partnerName}-2.png`,
+        `images/partner/${partnerName}-3.png`
+    ];
+    //画像を動的に表示
+    function Img(srcImg) {
+        let img = document.getElementById("partner_img"),
+            srcList = srcImg,
+            length = srcList.length,
+            index = 0;
+
+        setInterval(function () {
+            img.setAttribute("src", srcList[index]);
+            index = ++index % length;
+        }, 750);
+    }
+    Img(srcImg);
 
     function generateCard(cards) {
 
@@ -84,7 +107,6 @@ addEventListener('DOMContentLoaded', function () {
             let td = document.createElement('td');
             let tempCard = paCards[j];
             td.classList.add('card', `no-${tempCard.num}`, 'partner', 'back');
-            // td.setAttribute("onmouseover", mouseover);
             //以下を追加
             td.num = tempCard.num;
             td.style.backgroundImage = `url(images/${tempCard.front})`;
@@ -253,7 +275,6 @@ addEventListener('DOMContentLoaded', function () {
 
     //勝敗の判定
     function matchResult() {
-        console.log(document.querySelectorAll("#partner_img")[0]);
         let card = document.querySelectorAll('.card');
         let joker = document.querySelectorAll('.no-100');
 
@@ -265,7 +286,8 @@ addEventListener('DOMContentLoaded', function () {
 
                 //裏返ったままなので表にする
                 joker[0].classList.remove('back');
-                result.innerHTML = "Your WIN!!!";
+                let url = location.href;
+                result.innerHTML = `Your WIN!!!<br/><a href=${url}>もう一度挑戦する</a><a href='./select.html'>相手を選び直す</a>`;
 
                 //なぜかうまく画像が切り替わらないので削除し再生成する
                 let img = document.getElementById("partner_img");
@@ -279,18 +301,16 @@ addEventListener('DOMContentLoaded', function () {
 
                 //負けた時用の画像を追加
                 let loseSrcImg = [
-                    "images/partner/kakki_s-1.png",
-                    "images/partner/kakki_s-2.png"
+                    `images/partner/${partnerName}_s-1.png`,
+                    `images/partner/${partnerName}_s-2.png`
                 ];
                 Img(loseSrcImg);
-                console.log(img2);
             } else {
                 //負けた場合の処理
                 let url = location.href;
-                result.innerHTML = `Your Lose....<br/><a href=${url}>もう一度挑戦する</a>`;
+                result.innerHTML = `Your Lose....<br/><a href=${url}>もう一度挑戦する</a><a href='./select.html'>相手を選び直す</a>`;
 
             }
-            console.log(document.querySelectorAll("#partner_img")[0]);
         }
     }
 
@@ -305,22 +325,3 @@ addEventListener('DOMContentLoaded', function () {
     mo.observe(div[0], config);
 });
 
-//通常モードの画像
-let srcImg = [
-    "images/partner/kakki-1.png",
-    "images/partner/kakki-2.png",
-    "images/partner/kakki-3.png"];
-//画像を動的に表示
-function Img(srcImg) {
-    console.log(1);
-    let img = document.getElementById("partner_img"),
-        srcList = srcImg,
-        length = srcList.length,
-        index = 0;
-
-    setInterval(function () {
-        img.setAttribute("src", srcList[index]);
-        index = ++index % length;
-    }, 750);
-}
-Img(srcImg);

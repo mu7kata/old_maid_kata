@@ -87,4 +87,18 @@ td.card.back{
 
 	#result a{
 font-size: 18px;
+padding-left: 20px;
+
+	}
+
+	#container img,#select_button{
+		margin: 0 auto;
+		display: block;
+	}
+
+	form ,#select_button{
+		display: block;
+		/* height: 20px; */
+		padding: 15px;
+
 	}
